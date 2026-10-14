@@ -74,3 +74,87 @@ describe('Suíte de Testes Fraca para 50 Operações Aritméticas', () => {
   test('49. deve calcular o triplo de um número', () => { expect(triplo(10)).toBe(30); });
   test('50. deve calcular a metade de um número', () => { expect(metade(20)).toBe(10); });
 });
+describe('Testes adicionais para matar mutantes sobreviventes', () => {
+  // === Bloco 1 ===
+  test('divisao lança erro com a mensagem correta', () => {
+    expect(() => divisao(5, 0)).toThrow('Divisão por zero não é permitida.');
+  });
+  test('raizQuadrada de zero é zero', () => { expect(raizQuadrada(0)).toBe(0); });
+  test('raizQuadrada lança erro para número negativo', () => {
+    expect(() => raizQuadrada(-4)).toThrow('Não é possível calcular a raiz quadrada de um número negativo.');
+  });
+  test('fatorial de 0 e 1 é 1', () => {
+    expect(fatorial(0)).toBe(1);
+    expect(fatorial(1)).toBe(1);
+  });
+  test('fatorial lança erro para número negativo', () => {
+    expect(() => fatorial(-1)).toThrow('Fatorial não é definido para números negativos.');
+  });
+  test('mediaArray de array vazio é 0', () => { expect(mediaArray([])).toBe(0); });
+
+  // === Bloco 2 ===
+  test('maximoArray lança erro para array vazio', () => {
+    expect(() => maximoArray([])).toThrow('Array vazio не possui valor máximo.');
+  });
+  test('minimoArray lança erro para array vazio', () => {
+    expect(() => minimoArray([])).toThrow('Array vazio не possui valor mínimo.');
+  });
+  test('isPar retorna false para número ímpar', () => { expect(isPar(7)).toBe(false); });
+  test('isImpar retorna false para número par', () => {
+    expect(isImpar(4)).toBe(false);
+    expect(isImpar(0)).toBe(false);
+  });
+
+  // === Bloco 4 ===
+  test('isPrimo retorna false para números menores ou iguais a 1', () => {
+    expect(isPrimo(1)).toBe(false);
+    expect(isPrimo(0)).toBe(false);
+    expect(isPrimo(-7)).toBe(false);
+  });
+  test('isPrimo retorna false para números compostos', () => {
+    expect(isPrimo(4)).toBe(false);
+    expect(isPrimo(9)).toBe(false);
+  });
+  test('isPrimo retorna true para 2', () => { expect(isPrimo(2)).toBe(true); });
+  test('clamp retorna min quando o valor está abaixo do intervalo', () => { expect(clamp(-5, 0, 10)).toBe(0); });
+  test('clamp retorna max quando o valor está acima do intervalo', () => { expect(clamp(15, 0, 10)).toBe(10); });
+  test('clamp retorna o próprio valor quando está exatamente no limite', () => {
+    // -0 e 0 são iguais para < e >, mas distintos para toBe (Object.is):
+    // isso diferencia "retornou o valor" de "retornou o limite".
+    expect(clamp(-0, 0, 10)).toBe(-0);
+    expect(clamp(0, -10, -0)).toBe(0);
+  });
+  test('isDivisivel retorna false quando não é divisível', () => { expect(isDivisivel(10, 3)).toBe(false); });
+  test('celsiusParaFahrenheit converte 100°C', () => { expect(celsiusParaFahrenheit(100)).toBe(212); });
+  test('fahrenheitParaCelsius converte 212°F', () => { expect(fahrenheitParaCelsius(212)).toBe(100); });
+  test('inverso lança erro para zero', () => {
+    expect(() => inverso(0)).toThrow('Não é possível inverter o número zero.');
+  });
+
+  // === Bloco 5 ===
+  test('isMaiorQue retorna false para valores iguais ou menores', () => {
+    expect(isMaiorQue(5, 5)).toBe(false);
+    expect(isMaiorQue(5, 10)).toBe(false);
+  });
+  test('isMenorQue retorna false para valores iguais ou maiores', () => {
+    expect(isMenorQue(5, 5)).toBe(false);
+    expect(isMenorQue(10, 5)).toBe(false);
+  });
+  test('isEqual retorna false para valores diferentes', () => { expect(isEqual(7, 8)).toBe(false); });
+  test('medianaArray lança erro para array vazio', () => {
+    expect(() => medianaArray([])).toThrow('Array vazio не possui mediana.');
+  });
+  test('medianaArray ordena um array ímpar desordenado', () => {
+    expect(medianaArray([5, 1, 3])).toBe(3);
+    expect(medianaArray([3, 10, 1, 2, 7])).toBe(3);
+  });
+  test('medianaArray de array par usa a média dos dois elementos centrais', () => {
+    expect(medianaArray([4, 1, 3, 2])).toBe(2.5);
+    expect(medianaArray([10, 20])).toBe(15);
+  });
+  test('medianaArray não altera o array original', () => {
+    const original = [3, 1, 2];
+    medianaArray(original);
+    expect(original).toEqual([3, 1, 2]);
+  });
+});
